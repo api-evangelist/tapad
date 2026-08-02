@@ -1,7 +1,31 @@
 aid: tapad
+accessModel:
+  pricing: unknown
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Unknown
+  confidence: low
+  source: []
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/tapad.png
 name: TapAd
-description: TapAd is a company surfaced as a portfolio company of battery-ventures and added to the API
-  Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: >-
+  Tapad is a digital identity and cross-device graph technology company, founded
+  in 2010 and headquartered in New York City. Its flagship product, the Tapad
+  Graph, is a probabilistic device graph that lets marketers, agencies, and
+  platforms recognize a brand's customer or related household across the many
+  devices they use, powering programmatic targeting, media measurement,
+  attribution, and personalization. Tapad was acquired by the Norwegian telecom
+  Telenor in 2016 and then by the credit-and-data company Experian in 2020, where
+  its cross-device graph is offered as part of Experian's marketing and identity
+  resolution portfolio. Tapad's technology is delivered primarily as a data
+  partnership and graph-integration offering rather than a self-service public
+  developer API; the company does not publish an open developer portal, API
+  reference, or SDKs. It was added to the API Evangelist network as a portfolio
+  company of Battery Ventures.
 url: https://raw.githubusercontent.com/api-evangelist/tapad/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -11,12 +35,34 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-21'
 tags:
 - Company
+- Advertising
+- AdTech
+- Identity
+- Cross-Device
+- Device Graph
+- Marketing
+- Data
+- Attribution
 apis: []
+common:
+- type: DomainSecurity
+  url: security/tapad-domain-security.yml
+- type: Website
+  url: https://www.tapad.com
+- type: Blog
+  url: https://www.tapad.com/insights
+- type: EngineeringBlog
+  url: https://engineering.tapad.com
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+x-enrichment:
+  date: '2026-07-21'
+  status: minimal
+  artifacts_added: 1
+  pass: local-v1
