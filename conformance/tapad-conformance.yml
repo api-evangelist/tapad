@@ -1,0 +1,104 @@
+generated: '2026-08-12'
+method: derived
+source: >-
+  Derived from live probes of https://tapestry.tapad.com/tapestry/1 and
+  https://analytics.tapad.com/app/event (2026-08-12), Tapad's own SDK source at
+  github.com/Tapad, and security/tapad-domain-security.yml. No compliance or
+  certification claim is asserted here that Tapad does not publish.
+note: >-
+  Tapad publishes no certification page, no trust center and no compliance
+  statement on any live host — /solutions/information-security-overview, which
+  once carried one, now 301s to experian.com. No `type: Compliance` pointer is
+  emitted, because there is no published certification to point at.
+standards:
+  - id: openapi
+    conforms: false
+    evidence: >-
+      No OpenAPI or Swagger document at any probed path on www., crportal.,
+      tapestry. or analytics.tapad.com (all 404). No spec in the github.com/Tapad
+      organization.
+  - id: asyncapi
+    conforms: false
+    evidence: No event/streaming contract published; no webhook surface documented.
+  - id: graphql
+    conforms: false
+    evidence: /graphql returns 404 on every probed host.
+  - id: oauth2
+    conforms: false
+    evidence: >-
+      /.well-known/oauth-authorization-server 404s on every host; the published
+      SDK source shows a query-string partner id, not a token flow.
+  - id: oidc
+    conforms: false
+    evidence: /.well-known/openid-configuration 404s on every host.
+  - id: rfc9457
+    conforms: false
+    evidence: >-
+      Errors return HTTP 200 with a proprietary {"errors":["<int>|<Name>"]}
+      envelope, not application/problem+json. See errors/tapad-problem-types.yml.
+  - id: rfc8594
+    conforms: false
+    evidence: No Sunset or Deprecation header on any probed response.
+  - id: rfc9110-status-semantics
+    conforms: false
+    evidence: >-
+      The API returns 200 for authentication failure, permission failure and
+      malformed requests alike. Status codes carry no application semantics.
+  - id: rfc9309-robots
+    conforms: false
+    evidence: https://www.tapad.com/robots.txt returns 404.
+  - id: rfc9116-security-txt
+    conforms: false
+    evidence: /.well-known/security.txt returns 404 on all four probed hosts.
+  - id: idempotency
+    conforms: false
+    evidence: No idempotency key or dedup semantics published.
+  - id: pagination
+    conforms: false
+    evidence: No cursor, page, offset or limit parameter in the published surface.
+  - id: hsts
+    conforms: true
+    evidence: >-
+      strict-transport-security max-age=31536000 observed on the Tapestry API
+      response at /tapestry/1, 2026-08-12. security/tapad-domain-security.yml
+      records hsts: null for tapestry./analytics.tapad.com because that probe
+      reads the host ROOT, which 404s from a Google frontend without the header;
+      the API path itself does send it. The marketing host www.tapad.com does
+      NOT set HSTS on any path.
+  - id: tls13
+    conforms: true
+    evidence: TLSv1.3 negotiated on www.tapad.com; HTTP/2 on all live hosts.
+  - id: dnssec
+    conforms: false
+    evidence: security/tapad-domain-security.yml — no DNSSEC on tapad.com.
+  - id: caa
+    conforms: false
+    evidence: security/tapad-domain-security.yml — no CAA records on tapad.com.
+  - id: spf
+    conforms: true
+    evidence: security/tapad-domain-security.yml — SPF present on tapad.com.
+  - id: dmarc
+    conforms: true
+    evidence: >-
+      security/tapad-domain-security.yml — DMARC present with policy=quarantine
+      (not reject).
+  - id: iab-tcf
+    conforms: unknown
+    evidence: >-
+      The site runs a consent manager and publishes Opt Out / "Do Not Sell My
+      Personal Information" controls, but no TCF vendor-id or framework version
+      is stated on any live page. Not asserted either way.
+  - id: p3p
+    conforms: true
+    evidence: >-
+      The Tapestry API still emits a P3P policy header referencing
+      tapad-taptags.s3.amazonaws.com/policy/p3p.xml — a protocol W3C retired in
+      2018. Recorded as an observation, not as a credit.
+third_party_attestations:
+  - name: ePrivacy seal
+    url: https://www.eprivacy.eu/en/customers/awarded-seals/company/tapad-inc/
+    status: 200
+    checked: '2026-08-12'
+    note: >-
+      Linked from the Tapad homepage footer. A third-party privacy seal, not a
+      security certification; recorded but NOT counted as a compliance program.

@@ -1,0 +1,155 @@
+generated: '2026-08-12'
+method: probed
+source: live HTTPS probes, 2026-08-12
+note: >-
+  EVERY well-known path on every Tapad host returned 404. No WellKnown or
+  SecurityTxt pointer is emitted in apis.yml, because nothing here is a served
+  document — this file records a verified ABSENCE, not a presence. The
+  www.tapad.com 404 body is the Craft CMS site shell (46,692 bytes of HTML);
+  the crportal.tapad.com 404 is a 95-byte nginx error page; the API hosts
+  (tapestry./analytics./pixel.tapad.com) return a 553-byte Google frontend 404.
+  None of them is an SPA catch-all returning 200 for arbitrary paths — a bogus
+  control path was probed on each host and also 404d.
+hosts_probed:
+  - www.tapad.com
+  - crportal.tapad.com
+  - tapestry.tapad.com
+  - analytics.tapad.com
+hits: 0
+probes:
+  - host: www.tapad.com
+    path: /.well-known/security.txt
+    status: 404
+    file: null
+  - host: www.tapad.com
+    path: /.well-known/openid-configuration
+    status: 404
+    file: null
+  - host: www.tapad.com
+    path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+  - host: www.tapad.com
+    path: /.well-known/oauth-protected-resource
+    status: 404
+    file: null
+  - host: www.tapad.com
+    path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - host: www.tapad.com
+    path: /.well-known/ai-plugin.json
+    status: 404
+    file: null
+  - host: www.tapad.com
+    path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - host: www.tapad.com
+    path: /.well-known/agent.json
+    status: 404
+    file: null
+  - host: www.tapad.com
+    path: /robots.txt
+    status: 404
+    file: null
+  - host: www.tapad.com
+    path: /sitemap.xml
+    status: 404
+    file: null
+  - host: crportal.tapad.com
+    path: /.well-known/security.txt
+    status: 404
+    file: null
+  - host: crportal.tapad.com
+    path: /.well-known/openid-configuration
+    status: 404
+    file: null
+  - host: crportal.tapad.com
+    path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+  - host: crportal.tapad.com
+    path: /.well-known/oauth-protected-resource
+    status: 404
+    file: null
+  - host: crportal.tapad.com
+    path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - host: crportal.tapad.com
+    path: /.well-known/ai-plugin.json
+    status: 404
+    file: null
+  - host: crportal.tapad.com
+    path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - host: crportal.tapad.com
+    path: /.well-known/agent.json
+    status: 404
+    file: null
+  - host: tapestry.tapad.com
+    path: /.well-known/security.txt
+    status: 404
+    file: null
+  - host: tapestry.tapad.com
+    path: /.well-known/openid-configuration
+    status: 404
+    file: null
+  - host: tapestry.tapad.com
+    path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+  - host: tapestry.tapad.com
+    path: /.well-known/oauth-protected-resource
+    status: 404
+    file: null
+  - host: tapestry.tapad.com
+    path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - host: tapestry.tapad.com
+    path: /.well-known/ai-plugin.json
+    status: 404
+    file: null
+  - host: tapestry.tapad.com
+    path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - host: tapestry.tapad.com
+    path: /.well-known/agent.json
+    status: 404
+    file: null
+  - host: analytics.tapad.com
+    path: /.well-known/security.txt
+    status: 404
+    file: null
+  - host: analytics.tapad.com
+    path: /.well-known/openid-configuration
+    status: 404
+    file: null
+  - host: analytics.tapad.com
+    path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+  - host: analytics.tapad.com
+    path: /.well-known/oauth-protected-resource
+    status: 404
+    file: null
+  - host: analytics.tapad.com
+    path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - host: analytics.tapad.com
+    path: /.well-known/ai-plugin.json
+    status: 404
+    file: null
+  - host: analytics.tapad.com
+    path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - host: analytics.tapad.com
+    path: /.well-known/agent.json
+    status: 404
+    file: null

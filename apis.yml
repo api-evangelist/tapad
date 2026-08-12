@@ -1,15 +1,17 @@
 aid: tapad
 accessModel:
-  pricing: unknown
-  onboarding: unknown
+  pricing: contact-sales
+  onboarding: manual
   trial: false
   try_now: false
   public: false
-  label: Unknown
-  confidence: low
-  source: []
-  generated: '2026-07-22'
-  method: derived
+  label: Partner Only
+  confidence: high
+  source:
+  - https://www.tapad.com
+  - https://tapestry.tapad.com/tapestry/1
+  generated: '2026-08-12'
+  method: probed
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/tapad.png
 name: TapAd
 description: >-
@@ -19,12 +21,15 @@ description: >-
   platforms recognize a brand's customer or related household across the many
   devices they use, powering programmatic targeting, media measurement,
   attribution, and personalization. Tapad was acquired by the Norwegian telecom
-  Telenor in 2016 and then by the credit-and-data company Experian in 2020, where
-  its cross-device graph is offered as part of Experian's marketing and identity
-  resolution portfolio. Tapad's technology is delivered primarily as a data
-  partnership and graph-integration offering rather than a self-service public
-  developer API; the company does not publish an open developer portal, API
-  reference, or SDKs. It was added to the API Evangelist network as a portfolio
+  Telenor in 2016 and then by the credit-and-data company Experian in 2020, and
+  by 2026 its product and company pages redirect into Experian's Consumer Sync
+  marketing suite while docs.tapad.com redirects to Experian's client-only
+  Marketing Knowledge Base. Tapad runs no public developer program — no portal,
+  no OpenAPI, no pricing and no self-service signup — but it does still operate
+  two live first-party HTTP endpoints, the Tapestry Web API and an event
+  tracking beacon, both requiring a partner id that only Tapad can issue, and it
+  published four open-source mobile SDKs that it has since archived as
+  unmaintained. It was added to the API Evangelist network as a portfolio
   company of Battery Ventures.
 url: https://raw.githubusercontent.com/api-evangelist/tapad/refs/heads/main/apis.yml
 x-type: company
@@ -35,7 +40,7 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-21'
+modified: '2026-08-12'
 tags:
 - Company
 - Advertising
@@ -46,23 +51,98 @@ tags:
 - Marketing
 - Data
 - Attribution
-apis: []
+- Audience
+- Identity Resolution
+apis:
+- name: Tapad Tapestry Web API
+  description: >-
+    The Tapestry Web API is Tapad's cross-device identity and audience endpoint.
+    A client sends a GET request carrying a Tapad-issued partner id plus one or
+    more device or user identifiers, and Tapad resolves them to a device clique
+    in the Tapad Graph. The same call can read back key/value data, audience
+    tags, resolved identifiers and the list of devices in the clique, and can
+    write data and audience membership onto that clique. All input travels in
+    the query string under a ta_ prefix; the response is a flat JSON object.
+    Errors are returned with HTTP 200 and a proprietary errors[] envelope rather
+    than a status code. The endpoint is live and answering as of 2026-08-12, but
+    the only published clients for it are SDKs Tapad archived in 2014.
+  humanURL: https://github.com/Tapad/tapestry-ios-sdk
+  baseURL: https://tapestry.tapad.com/tapestry/1
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/tapad.png
+  tags:
+  - Identity
+  - Cross-Device
+  - Device Graph
+  - Audience
+  - Identity Resolution
+  properties:
+  - type: Authentication
+    url: authentication/tapad-authentication.yml
+  - type: Conventions
+    url: conventions/tapad-conventions.yml
+  - type: ErrorCatalog
+    url: errors/tapad-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/tapad-rate-limits.yml
+  - type: SourceCode
+    url: https://github.com/Tapad/tapestry-android-sdk
+- name: Tapad Event Tracking API
+  description: >-
+    Tapad's app install and in-app event tracking beacon, documented in the
+    company's own open-source mobile SDKs as the RESOURCE_URL for the
+    event-tracking module. A client sends a GET request with a Tapad-issued
+    partner id and event parameters; the service answers HTTP 200 with a 1x1 PNG.
+    The companion ad-serving endpoint that shipped in the same SDK,
+    swappit.tapad.com, no longer resolves in DNS. The event endpoint is live as
+    of 2026-08-12.
+  humanURL: https://github.com/Tapad/tapad-android-sdk
+  baseURL: https://analytics.tapad.com/app/event
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/tapad.png
+  tags:
+  - Advertising
+  - Attribution
+  - Analytics
+  properties:
+  - type: Authentication
+    url: authentication/tapad-authentication.yml
+  - type: SourceCode
+    url: https://github.com/Tapad/tapad-ios-sdk
 common:
-- type: DomainSecurity
-  url: security/tapad-domain-security.yml
 - type: Website
   url: https://www.tapad.com
-- type: Blog
-  url: https://www.tapad.com/insights
-- type: EngineeringBlog
-  url: https://engineering.tapad.com
+- type: PrivacyPolicy
+  url: https://www.tapad.com/global-privacy-notice
+- type: GitHubOrganization
+  url: https://github.com/Tapad
+- type: DomainSecurity
+  url: security/tapad-domain-security.yml
+- type: Packages
+  url: packages/tapad-packages.yml
+- type: SDKs
+  url: packages/tapad-packages.yml
+- type: Authentication
+  url: authentication/tapad-authentication.yml
+- type: Conventions
+  url: conventions/tapad-conventions.yml
+- type: ErrorCatalog
+  url: errors/tapad-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/tapad-lifecycle.yml
+- type: Conformance
+  url: conformance/tapad-conformance.yml
+- type: Plans
+  url: plans/tapad-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/tapad-rate-limits.yml
+- type: LLMsTxt
+  url: llms/tapad-llms.txt
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 x-enrichment:
-  date: '2026-07-21'
-  status: minimal
-  artifacts_added: 1
+  date: '2026-08-12'
+  status: enriched
+  artifacts_added: 10
   pass: local-v1

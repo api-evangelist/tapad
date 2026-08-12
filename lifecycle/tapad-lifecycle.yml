@@ -1,0 +1,126 @@
+generated: '2026-08-12'
+method: probed
+source: >-
+  Live HTTP probes of tapad.com and its subdomains on 2026-08-12, plus
+  github.com/Tapad repository archive state read via gh api.
+note: >-
+  Tapad publishes NO versioning policy, NO deprecation policy, NO Sunset or
+  Deprecation headers (RFC 8594), NO SLA and NO status page. What it does have
+  is an unusually well-evidenced decay profile, recorded below from probes
+  rather than from any provider statement. Nothing here is a Tapad commitment;
+  it is observed lifecycle state.
+
+versioning:
+  policy_published: false
+  scheme: path segment
+  current_version: '1'
+  first_seen: '2013'
+  note: >-
+    tapestry/1 is the version the 2013 SDKs targeted and the version still
+    answering in 2026. No v2 has ever been announced.
+
+deprecation:
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  note: >-
+    No RFC 8594 Sunset or Deprecation header appeared on any probed response.
+    Deprecation at Tapad has been carried out by silent removal, not by
+    announcement — see retired_surfaces below.
+
+sla:
+  published: false
+
+status_page:
+  published: false
+  note: >-
+    No status.tapad.com, no statuspage.io tenant and no status link on any live
+    page. No StatusPage pointer is emitted in apis.yml.
+
+live_surfaces:
+  - name: Tapestry Web API
+    url: https://tapestry.tapad.com/tapestry/1
+    status: 200
+    state: live
+    checked: '2026-08-12'
+  - name: Event tracking beacon
+    url: https://analytics.tapad.com/app/event
+    status: 200
+    state: live
+    checked: '2026-08-12'
+  - name: Consumer rights portal
+    url: https://crportal.tapad.com
+    status: 200
+    state: live-gated
+    checked: '2026-08-12'
+    note: >-
+      Linked from the Tapad footer as both "Opt Out" and "Do Not Sell My
+      Personal Information". An nginx-served sign-in page whose CSP allows
+      Amazon and Google federated sign-in plus reCAPTCHA. This is a consumer
+      privacy-rights portal, NOT a developer console — Tapad has no developer
+      console on any host.
+  - name: Marketing site
+    url: https://www.tapad.com
+    status: 200
+    state: live-legacy
+    checked: '2026-08-12'
+    note: Craft CMS site, footer copyright still reads 2024.
+
+retired_surfaces:
+  - name: Developer documentation
+    url: https://docs.tapad.com
+    status: 301
+    redirects_to: https://www.experian.com/marketing-knowledge-base/resolution
+    state: absorbed
+    checked: '2026-08-12'
+    note: >-
+      Tapad's documentation host now points at Experian's Marketing Knowledge
+      Base, which states "This content is intended for Experian clients only."
+  - name: Engineering blog
+    url: https://engineering.tapad.com
+    status: 000
+    state: dead
+    checked: '2026-08-12'
+    note: >-
+      DNS still resolves to twelve legacy AWS elastic IPs, but no TCP/TLS
+      service answers. The apis.yml EngineeringBlog pointer was removed in this
+      pass because it is a dead link.
+  - name: Ad serving endpoint
+    url: https://swappit.tapad.com/swappit/ad
+    status: NXDOMAIN
+    state: dead
+    checked: '2026-08-12'
+    note: Host referenced by the archived tapad-android-sdk no longer resolves.
+  - name: Insights / resources
+    url: https://www.tapad.com/insights
+    status: 404
+    state: dead
+    checked: '2026-08-12'
+    note: Was wired as the Blog pointer in apis.yml; removed in this pass.
+  - name: Product and company pages
+    url: https://www.tapad.com/the-tapad-graph
+    status: 301
+    redirects_to: https://www.experian.com/marketing/consumer-sync/identity-resolution
+    state: absorbed
+    checked: '2026-08-12'
+    note: >-
+      /solutions/switchboard, /why-tapad, /news, /careers, /about-us/* and
+      /tapadlife all 301 into experian.com. Only the homepage, /privacy and
+      /global-privacy-notice still render Tapad content.
+
+client_library_decay:
+  newest_first_party_sdk_release: '2014-03-12'
+  newest_first_party_sdk: tapestry-ios-sdk v1.3.1
+  all_sdks_archived: true
+  gap_years: 12
+  note: >-
+    Every first-party SDK is marked "archived as unmaintained" by Tapad. The
+    Tapestry Web API those SDKs call is still answering today, so the only
+    published clients for a running service are twelve years stale. See
+    packages/tapad-packages.yml.
+
+ownership_timeline:
+  - '2010: founded, New York City'
+  - '2016: acquired by Telenor'
+  - '2020: acquired by Experian'
+  - '2026: product surface consolidated into experian.com/marketing/consumer-sync'

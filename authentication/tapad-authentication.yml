@@ -1,0 +1,86 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  https://github.com/Tapad/tapestry-ios-sdk (README + TATapestryRequest.m) and
+  https://github.com/Tapad/tapestry-android-sdk — Tapad's own MIT-licensed SDK
+  source; corroborated by live unauthenticated probes of
+  https://tapestry.tapad.com/tapestry/1 on 2026-08-12.
+note: >-
+  derive-authentication.py could not be run against a spec: Tapad publishes no
+  OpenAPI, so there are no securitySchemes to derive from. This profile is read
+  from Tapad's own published SDK source and confirmed against the live
+  endpoint. There is NO OAuth, NO bearer token, NO signed request and NO
+  Authorization header anywhere in Tapad's published surface — authentication is
+  a single partner identifier carried in the query string over TLS, plus an
+  origin/referrer check enforced server-side.
+apis:
+
+  - api: tapestry
+    base_url: https://tapestry.tapad.com/tapestry/1
+    transport: HTTPS GET (query string); HSTS max-age=31536000 present on the response
+    schemes:
+      - id: partner_id
+        type: apiKey
+        in: query
+        name: ta_partner_id
+        required: true
+        description: >-
+          Partner identifier issued by Tapad. Configured in the iOS SDK as the
+          Info.plist key TapestryPartnerID and in the Android SDK via the
+          TapestryClient constructor. Absent or unrecognized values return
+          {"errors":["3|NoPartnerIdError"]} with HTTP 200.
+        provisioning: manual, by Tapad (no self-service signup exists)
+        rotation: not documented
+      - id: referrer
+        type: origin-check
+        in: header
+        name: Referer
+        required: false
+        description: >-
+          The API validates the request referrer against the origin registered
+          for the partner id; a mismatch returns error 2|BadReferrerError. This
+          is a server-side control, not a credential the client chooses.
+    device_identity_parameters:
+      - ta_partner_did
+      - ta_typed_did
+      - ta_partner_user_id
+    evidence:
+      - url: https://tapestry.tapad.com/tapestry/1
+        http_status: 200
+        body: '{"errors":["3|NoPartnerIdError"]}'
+        fetched: '2026-08-12'
+      - url: https://tapestry.tapad.com/tapestry/1?ta_partner_id=1234&ta_get=
+        http_status: 200
+        body: '{"errors":["3|NoPartnerIdError"]}'
+        fetched: '2026-08-12'
+        note: >-
+          A syntactically valid but unprovisioned partner id is rejected
+          identically — proof that partner ids are allocated, not self-asserted.
+
+  - api: event-tracking
+    base_url: https://analytics.tapad.com/app/event
+    transport: HTTPS GET beacon; responds 200 image/png (1x1 tracking pixel)
+    schemes:
+      - id: partner_id
+        type: apiKey
+        in: query
+        name: ta_partner_id
+        required: true
+        description: >-
+          Same partner identifier as the Tapestry API. Declared in
+          com.tapad.tracking.EventResource in the Android SDK.
+        provisioning: manual, by Tapad
+    evidence:
+      - url: https://analytics.tapad.com/app/event
+        http_status: 200
+        content_type: image/png
+        fetched: '2026-08-12'
+
+oauth: false
+openid_connect: false
+mutual_tls: false
+docs: null
+docs_note: >-
+  No public authentication documentation is served. docs.tapad.com 301s to
+  https://www.experian.com/marketing-knowledge-base/resolution, which states
+  "This content is intended for Experian clients only."

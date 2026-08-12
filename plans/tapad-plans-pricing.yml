@@ -1,0 +1,31 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  https://www.tapad.com (homepage nav and footer, fetched 2026-08-12) and the
+  redirect targets of every product page. No pricing page exists on any Tapad
+  host.
+plan_count: 0
+currency: null
+note: >-
+  Tapad publishes no plans, no price, no tier and no self-service signup. The
+  site has no /pricing path and no pricing entry in its navigation; the only
+  calls to action are "LEARN MORE" and, on the Experian pages the product links
+  now 301 to, "Get started today" — a contact form. Access to the Tapad Graph is
+  sold as a data partnership: the homepage states Tapad "works with brands,
+  agencies and platforms to ingest device identifiers from their platforms or
+  data stacks", and the Tapestry API requires a partner id that only Tapad can
+  issue. This is an honest zero, not an unchecked field.
+evidence:
+  - url: https://www.tapad.com/pricing
+    status: 404
+    checked: '2026-08-12'
+  - url: https://www.tapad.com
+    status: 200
+    checked: '2026-08-12'
+    note: No pricing link in nav or footer.
+  - url: https://www.tapad.com/the-tapad-graph
+    status: 301
+    redirects_to: https://www.experian.com/marketing/consumer-sync/identity-resolution
+    checked: '2026-08-12'
+    note: Experian product page is likewise contact-sales, no published price.
+plans: []

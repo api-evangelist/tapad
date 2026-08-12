@@ -1,0 +1,41 @@
+generated: '2026-08-12'
+method: probed
+source: >-
+  Live observation of https://tapestry.tapad.com/tapestry/1 response headers on
+  2026-08-12 (single request and a 10-request burst), plus a search of every
+  live Tapad page for a documented limit.
+limit_count: 0
+note: >-
+  Tapad documents no rate limits anywhere, and the API emits no runtime
+  rate-limit signal. A 10-request burst against the Tapestry endpoint returned
+  200 on every call with no throttling and no backoff hint. An integrator has no
+  way — from the docs or from the wire — to know what the ceiling is or when
+  they are approaching it. This is an honest zero: checked, nothing published.
+response_headers:
+  ratelimit_standard: none
+  x_ratelimit: none
+  retry_after: none
+  observed_headers:
+    - date
+    - strict-transport-security
+    - set-cookie
+    - p3p
+    - content-type
+    - via
+    - alt-svc
+status_on_exhaustion: unknown
+exhaustion_note: >-
+  Not determinable. The API returns HTTP 200 for every condition including
+  authentication failure, so a 429 is unlikely to be the exhaustion signal; if
+  throttling exists it is probably expressed as an error code in the JSON
+  `errors` envelope, but no such code appears in Tapad's published error
+  enumeration (errors/tapad-problem-types.yml).
+limits: []
+evidence:
+  - url: https://tapestry.tapad.com/tapestry/1?ta_partner_id=1234
+    status: 200
+    checked: '2026-08-12'
+    note: 10 consecutive requests, all 200, no rate-limit header on any response.
+  - url: https://analytics.tapad.com/app/event
+    status: 200
+    checked: '2026-08-12'

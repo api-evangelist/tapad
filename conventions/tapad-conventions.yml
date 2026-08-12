@@ -1,0 +1,132 @@
+generated: '2026-08-12'
+method: derived
+source: >-
+  Derived from Tapad's own published SDK source (github.com/Tapad/tapestry-ios-sdk
+  TATapestryRequest.m + TAURLBuilder.m, github.com/Tapad/tapestry-android-sdk
+  TapestryClient.java / TapestryError.java) and from live probes of
+  https://tapestry.tapad.com/tapestry/1 on 2026-08-12. No OpenAPI exists to
+  derive from; every convention below is traceable to a first-party artifact.
+api: tapestry
+
+auth:
+  style: query-string partner id (ta_partner_id) + server-side referrer check
+  see: authentication/tapad-authentication.yml
+
+request_style:
+  protocol: HTTPS
+  method: GET
+  encoding: >-
+    All input travels in the query string. The SDK's TAURLBuilder appends
+    ?name=value then &name=value, URL-encoding values only. There is no request
+    body and no JSON input anywhere in the published client surface.
+  parameter_prefix: ta_
+  map_parameters: >-
+    Key/value inputs are encoded as repeated ta_<verb>_data parameters carrying
+    key and value, rather than as nested JSON.
+  parameters:
+    - name: ta_partner_id
+      role: credential
+    - name: ta_partner_did
+      role: partner's own device identifier
+    - name: ta_typed_did
+      role: typed device identifier (keyed by ID source)
+    - name: ta_partner_user_id
+      role: partner user identifier (keyed by source)
+    - name: ta_add_data
+      role: append a value to a data key
+    - name: ta_set_data
+      role: overwrite a data key
+    - name: ta_sadd_data
+      role: set-add (deduplicated append)
+    - name: ta_remove_data
+      role: remove a value from a data key
+    - name: ta_clear_data
+      role: clear one or more data keys
+    - name: ta_add_audiences
+      role: attach audience tags
+    - name: ta_remove_audiences
+      role: detach audience tags
+    - name: ta_get
+      role: flag — return data in the response
+    - name: ta_get_devices
+      role: flag — enumerate the devices in the resolved clique
+    - name: ta_depth
+      role: graph traversal depth
+    - name: ta_strength
+      role: minimum link-strength threshold
+    - name: ta_platform
+      role: declaring platform
+    - name: ta_analytics
+      role: session analytics (isNewSession)
+
+response_envelope:
+  content_type: application/json;charset=utf-8
+  status_on_error: 200
+  shape: >-
+    A flat JSON object. Success and failure share one envelope; failure is
+    signaled by the presence of the `errors` key, not by a status code.
+  keys:
+    - ids
+    - data
+    - analytics
+    - audiences
+    - platforms
+    - devices
+    - errors
+  see: errors/tapad-problem-types.yml
+
+idempotency:
+  supported: false
+  note: >-
+    No idempotency key, no request id, no dedup semantics are published. The
+    write-shaped operations (ta_add_data, ta_add_audiences) are additive and are
+    NOT safe to blind-retry; ta_set_data and ta_sadd_data are naturally
+    idempotent by virtue of overwrite / set semantics, which is a property of
+    the operation rather than a provider guarantee. No `type: Idempotency`
+    pointer is emitted for Tapad, because Tapad publishes no idempotency
+    support.
+
+pagination:
+  supported: false
+  note: >-
+    Responses return a single resolved device clique; there is no cursor,
+    offset, page or limit parameter anywhere in the published surface.
+    ta_depth bounds graph traversal, not result paging.
+
+field_expansion:
+  supported: partial
+  note: >-
+    ta_get and ta_get_devices act as expansion flags — they control whether the
+    data map and the per-device breakdown are included in the response.
+
+request_tracing:
+  request_id_header: none
+  note: >-
+    No X-Request-Id, no correlation id and no trace header is emitted. Observed
+    response headers on 2026-08-12 were limited to date,
+    strict-transport-security, two Set-Cookie identity cookies (TapAd_TS,
+    TapAd_DID), a legacy P3P policy header, content-type, via and alt-svc.
+
+versioning:
+  style: path segment
+  current: '1'
+  example: https://tapestry.tapad.com/tapestry/1
+  note: >-
+    The major version has been 1 since the SDKs were written in 2013 and is
+    still 1 on the live endpoint in 2026. No version negotiation header exists.
+  see: lifecycle/tapad-lifecycle.yml
+
+rate_limit_signaling:
+  headers: none observed
+  note: >-
+    No X-RateLimit-*, RateLimit-* or Retry-After header appeared on any probed
+    response. See rate-limits/tapad-rate-limits.yml.
+
+privacy_conventions:
+  opt_out_is_terminal: >-
+    The SDKs treat a device as fully opted out if ANY of its identifiers (IDFA,
+    OpenUDID, hashed MAC) is opted out, and the API returns 4|OptedOut. This is
+    the strongest published behavioral convention in Tapad's surface.
+  cookies_set_anonymously: >-
+    An unauthenticated GET to the Tapestry endpoint sets TapAd_TS and TapAd_DID
+    cookies on .tapad.com with a ~60-day expiry, Secure and SameSite=None.

@@ -1,12 +1,22 @@
-generated: '2026-07-21'
+generated: '2026-08-12'
 method: probed
 source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
 hosts:
 - host: www.tapad.com
   https: true
   tls_version: TLSv1.3
-  cert_expires: Sep  7 20:56:43 2026 GMT
+  cert_expires: Oct 31 22:16:53 2026 GMT
   hsts: false
+- host: tapestry.tapad.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct  4 04:38:34 2026 GMT
+  hsts: null
+- host: analytics.tapad.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct  4 04:38:34 2026 GMT
+  hsts: null
 domains:
 - domain: tapad.com
   dnssec: false

@@ -1,0 +1,81 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  https://github.com/Tapad/tapestry-android-sdk/blob/master/tapestry/src/com/tapad/tapestry/TapestryError.java
+  (Tapad's own MIT-licensed SDK source — the canonical enumeration of the
+  Tapestry Web API error types), corroborated by a live unauthenticated probe of
+  https://tapestry.tapad.com/tapestry/1 on 2026-08-12 which returned
+  {"errors":["3|NoPartnerIdError"]} with HTTP 200.
+api: tapestry
+format: proprietary
+rfc9457: false
+note: >-
+  The Tapestry Web API does NOT use RFC 9457 problem+json and does NOT signal
+  failure with an HTTP status code. Every response — success or failure — is
+  HTTP 200 with content-type application/json;charset=utf-8. Errors are carried
+  in a top-level `errors` array of pipe-delimited strings shaped
+  "<type>|<Name>" or "<type>|<Name>|<message>", parsed by the SDK's
+  TapestryError.fromJSON(). A client that keys off status codes will read every
+  Tapad error as a success; it must inspect the body.
+envelope:
+  field: errors
+  container: array of string
+  encoding: '<int type>|<ErrorName>[|<message>]'
+  success_signal: 'absence of the `errors` key (SDK method: wasSuccess())'
+  http_status_on_error: 200
+  observed_example: '{"errors":["3|NoPartnerIdError"]}'
+response_fields:
+  - ids
+  - data
+  - analytics
+  - audiences
+  - platforms
+  - devices
+  - errors
+problem_types:
+  - code: 0
+    name: UnexpectedExceptionError
+    meaning: An unhandled server-side exception, or an SDK-side parse failure of the error string itself.
+    action: Retry; if persistent, contact the Tapad partner contact.
+  - code: 1
+    name: JsonParseError
+    meaning: The response body could not be parsed as JSON.
+    action: Treat as a transport/serialization fault and retry.
+  - code: 2
+    name: BadReferrerError
+    meaning: The request referrer does not match the referrer registered for the partner id.
+    action: Call from a registered origin, or have Tapad register the origin.
+  - code: 3
+    name: NoPartnerIdError
+    meaning: >-
+      No recognized ta_partner_id was supplied. Returned for anonymous calls AND
+      for an unprovisioned id — a live probe with ta_partner_id=1234 returned
+      this same error, confirming partner ids must be issued by Tapad.
+    action: Obtain a Tapestry partner id from Tapad and send it as ta_partner_id.
+  - code: 4
+    name: OptedOut
+    meaning: >-
+      The device has opted out of Tapad tracking. The SDK treats a device as
+      wholly opted out if ANY of its identifiers (IDFA, OpenUDID, hashed MAC) is
+      opted out.
+    action: Honor the opt-out; do not retry.
+  - code: 5
+    name: NoPermissions
+    meaning: The partner id is not permissioned for the requested data, audience or operation.
+    action: Request the permission from Tapad; do not retry as-is.
+  - code: 7
+    name: CannotIdentifyDevice
+    meaning: Tapad could not resolve the request to a device in the graph.
+    action: Supply a ta_partner_did or a ta_typed_did, or accept the miss.
+  - code: 8
+    name: ClientRequestError
+    meaning: The request was malformed (bad parameter name, value or encoding).
+    action: Fix the query string; do not retry unchanged.
+gaps:
+  - >-
+    Error code 6 is absent from the SDK enumeration. It is either unused or
+    unpublished; it is NOT recorded here because Tapad does not document it.
+  - >-
+    Tapad publishes no human error reference on any live host; docs.tapad.com
+    301s to Experian's client-only marketing knowledge base. The catalog above
+    is therefore the complete published surface.

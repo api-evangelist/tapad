@@ -1,0 +1,171 @@
+generated: '2026-08-12'
+method: searched
+source: >-
+  github.com/Tapad org repo listing + release/tag metadata (gh api) and Maven
+  Central search.maven.org solrsearch for groupId com.tapad / com.tapad.sbt.
+  Every entry below was read from the registry or from the repository's own
+  release metadata; nothing is inferred.
+note: >-
+  Tapad publishes no package under a JavaScript, Python, Ruby, Go, Rust, PHP or
+  .NET registry — npm registry search for "tapad" returns only third-party
+  forks, and pypi.org/pypi/tapad/json and rubygems.org/api/v1/gems/tapad.json
+  both answer 404. The only first-party client libraries Tapad ever shipped are
+  the four mobile SDKs below, distributed as GitHub source/release zips rather
+  than through CocoaPods or Maven. ALL FOUR ARE ARCHIVED BY TAPAD ITSELF AS
+  UNMAINTAINED, with a newest release of v1.3.1 on 2014-03-12 — twelve years
+  before this probe. The Tapestry Web API they call is still answering on
+  https://tapestry.tapad.com/tapestry/1 today, so the client libraries predate
+  the running service by more than a decade. The com.tapad* Maven artifacts are
+  first-party open source but are Scala BUILD tooling (sbt plugins), not API
+  clients; they are recorded here for completeness and marked sdk: false.
+
+sdk_count: 4
+package_count: 9
+
+packages:
+
+  - name: tapestry-ios-sdk
+    registry: github
+    official: true
+    sdk: true
+    language: Objective-C
+    url: https://github.com/Tapad/tapestry-ios-sdk
+    install: >-
+      Download tapestry-ios-sdk-X-X-X.zip from the releases page and drag
+      Tapestry.xcodeproj into the app project (no CocoaPods/SPM distribution).
+    version: v1.3.1
+    published: '2014-03-12'
+    archived: true
+    license: MIT
+    covers_api: tapestry
+    note: >-
+      Client for the Tapestry Web API (TATapestryClient / TATapestryRequest /
+      TATapestryResponse). Requires a TapestryPartnerID issued by Tapad.
+      Archived as unmaintained; last release v1.3.1, 2014-03-12.
+
+  - name: tapestry-android-sdk
+    registry: github
+    official: true
+    sdk: true
+    language: Java
+    url: https://github.com/Tapad/tapestry-android-sdk
+    install: >-
+      Download tapestry-android-sdk-X-X-X.zip from the releases page (no Maven
+      Central or JCenter coordinates were ever published).
+    version: v1.2.1
+    published: '2014-02-14'
+    archived: true
+    license: MIT
+    covers_api: tapestry
+    note: >-
+      Android client for the Tapestry Web API; TapestryClient.DEFAULT_URL is
+      http://tapestry.tapad.com/tapestry/1. Archived as unmaintained.
+
+  - name: tapad-ios-sdk
+    registry: github
+    official: true
+    sdk: true
+    language: Objective-C
+    url: https://github.com/Tapad/tapad-ios-sdk
+    install: git clone https://github.com/Tapad/tapad-ios-sdk.git
+    version: null
+    published: null
+    archived: true
+    license: MIT
+    covers_api: event-tracking
+    note: >-
+      Event-tracking + ad-serving SDK. Checked for release/tag metadata via
+      gh api repos/Tapad/tapad-ios-sdk/releases and /tags — the repository has
+      NO releases and NO tags, so there is no published version to record; the
+      only date available is the archive push of 2014-02-13. Consumers cannot
+      tell which build they are getting either.
+
+  - name: tapad-android-sdk
+    registry: github
+    official: true
+    sdk: true
+    language: Java
+    url: https://github.com/Tapad/tapad-android-sdk
+    install: git clone https://github.com/Tapad/tapad-android-sdk.git
+    version: null
+    published: null
+    archived: true
+    license: MIT
+    covers_api: event-tracking
+    note: >-
+      Split into event-tracking (https://analytics.tapad.com/app/event) and
+      ad-serving (https://swappit.tapad.com/swappit/ad, host now NXDOMAIN).
+      No releases and no tags exist on the repository, so version is null;
+      last push 2013-06-05.
+
+  - name: com.tapad:sbt-docker-compose
+    registry: maven
+    official: true
+    sdk: false
+    language: Scala
+    url: https://search.maven.org/artifact/com.tapad/sbt-docker-compose
+    repo: https://github.com/Tapad/sbt-docker-compose
+    version: 1.0.35
+    published: '2019-10-12'
+    archived: true
+    note: First-party sbt plugin (build tooling, not an API client).
+
+  - name: com.tapad:sbt-jarjar
+    registry: maven
+    official: true
+    sdk: false
+    language: Scala
+    url: https://search.maven.org/artifact/com.tapad/sbt-jarjar
+    version: 1.0.4
+    published: '2016-05-12'
+    archived: true
+    note: First-party sbt plugin (build tooling, not an API client).
+
+  - name: com.tapad.sbt:oozie-lib
+    registry: maven
+    official: true
+    sdk: false
+    language: Scala
+    url: https://search.maven.org/artifact/com.tapad.sbt/oozie-lib_2.12
+    version: 0.1.0
+    published: '2017-12-02'
+    archived: true
+    note: >-
+      Cross-published for Scala 2.10/2.11/2.12 alongside oozie-util and
+      oozie-templating-lib at the same version and date.
+
+  - name: com.tapad.sbt:marathon-templating-lib
+    registry: maven
+    official: true
+    sdk: false
+    language: Scala
+    url: https://search.maven.org/artifact/com.tapad.sbt/marathon-templating-lib_2.12
+    version: 0.2.1
+    published: '2017-10-26'
+    archived: true
+    note: Cross-published with marathon-util at the same version and date.
+
+  - name: com.tapad.sbt:cli-util
+    registry: maven
+    official: true
+    sdk: false
+    language: Scala
+    url: https://search.maven.org/artifact/com.tapad.sbt/cli-util_2.12
+    version: 0.1.4
+    published: '2017-08-12'
+    archived: true
+    note: First-party sbt helper library (build tooling, not an API client).
+
+registries_checked:
+  - registry: npm
+    url: https://registry.npmjs.org/-/v1/search?text=tapad
+    result: no first-party package (only third-party forks referencing github.com/Tapad)
+  - registry: pypi
+    url: https://pypi.org/pypi/tapad/json
+    status: 404
+  - registry: rubygems
+    url: https://rubygems.org/api/v1/gems/tapad.json
+    status: 404
+  - registry: maven
+    url: https://search.maven.org/solrsearch/select?q=g:com.tapad
+    result: 3 artifacts under com.tapad, 18 more under com.tapad.sbt
