@@ -120,6 +120,9 @@ apis:
   - type: SourceCode
     url: https://github.com/Tapad/tapad-ios-sdk
 common:
+- type: License
+  name: MIT
+  url: https://github.com/Tapad/tapestry-android-sdk/blob/master/LICENSE
 - type: Website
   url: https://www.tapad.com
 - type: PrivacyPolicy
