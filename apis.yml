@@ -63,6 +63,18 @@ tags:
 - Marketing
 - Data
 - Attribution
+- Audiences
+- Identity Resolution
+tags_raw:
+- Company
+- Advertising
+- AdTech
+- Identity
+- Cross-Device
+- Device Graph
+- Marketing
+- Data
+- Attribution
 - Audience
 - Identity Resolution
 apis:
@@ -82,6 +94,12 @@ apis:
   baseURL: https://tapestry.tapad.com/tapestry/1
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/tapad.png
   tags:
+  - Identity
+  - Cross-Device
+  - Device Graph
+  - Audiences
+  - Identity Resolution
+  tags_raw:
   - Identity
   - Cross-Device
   - Device Graph
